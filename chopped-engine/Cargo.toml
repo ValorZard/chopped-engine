@@ -1,0 +1,23 @@
+[package]
+name = "chopped-engine"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+kiss3d = { version = "0.45.1", features = ["egui"]}
+rapier2d = "0.35.1"
+rusttype = "0.9"
+hecs = "0.11.1"
+ron = "0.12.2"
+serde = { version = "1", features = ["derive"] }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+time = "0.3.55"
+uuid = { version = "1.24.0", features = ["v4"] }
+rodio = "0.22.2"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+web-sys = {workspace = true}
+time = { version = "0.3.55", features = ["wasm-bindgen"] }
+uuid = { version = "1.24.0", features = ["v4", "js"] }
+rodio = { version = "0.22.2", features = ["wasm-bindgen"]}

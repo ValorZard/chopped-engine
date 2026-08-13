@@ -1,0 +1,11 @@
+[package]
+name = "chopped-example-project"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = {version = "1"}
+chopped-asset-handler = {path = "..\\..\\chopped-asset-handler\\"}
+chopped-engine = {path = "..\\..\\chopped-engine\\"}
+serde = { version = "1", features = ["derive"] }
+ron = "0.12.2"
