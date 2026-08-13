@@ -39,17 +39,6 @@ pub fn fetch_asset_bytes_native(
     relative_path: &str,
     manifest_dir: &str,
 ) -> Result<Vec<u8>, AssetFetchError> {
-    if let Some(exe_dir) = std::env::current_exe()
-        .ok()
-        .and_then(|p| p.parent().map(|p| p.to_path_buf()))
-        && let Ok(bytes) = std::fs::read(exe_dir.join("assets").join(relative_path))
-    {
-        return Ok(bytes);
-    }
-
-    // Fall back to the source tree's assets/ folder for `cargo run`, where the
-    // exe lives under target/{debug,release} rather than next to a shipped
-    // assets/ folder.
     let dev_path = std::path::Path::new(manifest_dir)
         .join("assets")
         .join(relative_path);
