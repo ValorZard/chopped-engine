@@ -1,0 +1,17 @@
+(
+    player_trapped_box_width: 120.0,
+    player_trapped_box_height: 119.99999,
+    player_trapped_box_wall_width: 9.999999,
+    spawn_clouds: [
+        (
+            position: (0.0, -40.0),
+            width: 29.999998,
+            height: 20.999999,
+        ),
+    ],
+    static_platforms: [],
+    moving_platforms: [],
+    exit_position: (60.0, 50.0),
+    exit_width: 29.999998,
+    exit_height: 40,
+)

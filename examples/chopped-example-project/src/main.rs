@@ -5,10 +5,13 @@ use crate::{
     level_manager::LevelManager,
     sprites::preload_sprites,
 };
-use chopped_engine::kiss3d::{egui, prelude::*, window};
 use chopped_asset_handler::fetch_asset_bytes;
 use chopped_engine::rodio::Source;
 use chopped_engine::timestepper::FixedTimeStepper;
+use chopped_engine::{
+    kiss3d::{self, egui, prelude::*, window},
+    log, rodio,
+};
 
 mod config;
 mod editor;
@@ -22,7 +25,7 @@ mod sprites;
 const TEXT_FIT_IN_SPRITE: f32 = 0.9;
 
 async fn load_config() -> GameConfig {
-    let config_bytes = fetch_asset_bytes(config::CONFIG_PATH)
+    let config_bytes = fetch_asset_bytes(config::CONFIG_PATH, env!("CARGO_MANIFEST_DIR"))
         .await
         .expect("should be able to fetch config.ron");
     ron::de::from_bytes(&config_bytes).expect("config.ron should be valid RON")
@@ -61,7 +64,11 @@ fn fit_text_to_box(font: &Font, text: &str, max_size: Vec2) -> (f32, Vec2) {
     // the width of the whole run is where the last glyph starts plus how far it advances
     let unit_width = font
         .font()
-        .layout(text, unit_scale, chopped_engine::rusttype::Point { x: 0., y: 0. })
+        .layout(
+            text,
+            unit_scale,
+            chopped_engine::rusttype::Point { x: 0., y: 0. },
+        )
         .last()
         .map(|glyph| glyph.position().x + glyph.unpositioned().h_metrics().advance_width)
         .unwrap_or(0.);
@@ -94,8 +101,15 @@ async fn main() {
     let mut camera = PanZoomCamera2d::new(Vec2::ZERO, 5.0);
     let mut root_scene = SceneNode2d::empty();
 
+    println!(env!("CARGO_MANIFEST_DIR"));
+
     // preload all sprites into texture manager
-    preload_sprites("sprites.ron", &mut texture_manager).await;
+    preload_sprites(
+        "sprites.ron",
+        &mut texture_manager,
+        env!("CARGO_MANIFEST_DIR"),
+    )
+    .await;
 
     let mut level_manager = LevelManager::new("level_list.ron").await;
     let mut game_logic =
@@ -111,7 +125,7 @@ async fn main() {
     let device_sink = rodio::DeviceSinkBuilder::open_default_sink()
         .expect("should be able to open the default audio device");
     let rocket_player = rodio::Player::connect_new(device_sink.mixer());
-    let rocket_file = fetch_asset_bytes("rocket-thrust-effect.wav")
+    let rocket_file = fetch_asset_bytes("rocket-thrust-effect.wav", env!("CARGO_MANIFEST_DIR"))
         .await
         .expect("should have sound");
     let rocket_sound = rodio::Decoder::new(std::io::Cursor::new(rocket_file))

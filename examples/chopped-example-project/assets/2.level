@@ -1,0 +1,25 @@
+Level(
+    player_trapped_box_width: 200.0,
+    player_trapped_box_height: 120.0,
+    player_trapped_box_wall_width: 15.0,
+
+    spawn_clouds: [
+        SpawnCloud(
+            position: (-60.0, 20.0),
+            width: 30.,
+            height: 10.,
+        ),
+    ],
+
+    static_platforms: [
+        StaticPlatform(
+            position: (0.0, 20.0),
+            width: 10.,
+            height: 50.,
+        ),
+    ],
+
+    exit_position: (50.0, -50.0),
+    exit_width: 30.,
+    exit_height: 30.,
+)

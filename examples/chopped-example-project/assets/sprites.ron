@@ -1,0 +1,13 @@
+(
+    sprites: {
+        "cloud": (
+            path: "cloud.png",
+        ),
+        "jet": (
+            path: "jet.png",
+        ),
+        "sleeper": (
+            path: "sleeper.png",
+        ),
+    },
+)

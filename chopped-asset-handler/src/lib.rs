@@ -35,7 +35,10 @@ pub async fn fetch_asset_bytes_wasm(relative_path: &str) -> Result<Vec<u8>, Asse
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-pub fn fetch_asset_bytes_native(relative_path: &str) -> Result<Vec<u8>, AssetFetchError> {
+pub fn fetch_asset_bytes_native(
+    relative_path: &str,
+    manifest_dir: &str,
+) -> Result<Vec<u8>, AssetFetchError> {
     if let Some(exe_dir) = std::env::current_exe()
         .ok()
         .and_then(|p| p.parent().map(|p| p.to_path_buf()))
@@ -47,7 +50,7 @@ pub fn fetch_asset_bytes_native(relative_path: &str) -> Result<Vec<u8>, AssetFet
     // Fall back to the source tree's assets/ folder for `cargo run`, where the
     // exe lives under target/{debug,release} rather than next to a shipped
     // assets/ folder.
-    let dev_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+    let dev_path = std::path::Path::new(manifest_dir)
         .join("assets")
         .join(relative_path);
     match std::fs::read(&dev_path) {
@@ -74,13 +77,16 @@ pub fn fetch_asset_bytes_native(relative_path: &str) -> Result<Vec<u8>, AssetFet
 ///     since `upload_client.sh` ships an `assets/` folder alongside the binary.
 ///     It falls back to `CARGO_MANIFEST_DIR` so `cargo run` works without staging
 ///     assets next to `target/debug/client.exe`.
-pub async fn fetch_asset_bytes(relative_path: &str) -> Result<Vec<u8>, AssetFetchError> {
+pub async fn fetch_asset_bytes(
+    relative_path: &str,
+    manifest_dir: &str,
+) -> Result<Vec<u8>, AssetFetchError> {
     cfg_select! {
         target_arch = "wasm32" => {
             fetch_asset_bytes_wasm(relative_path).await
         }
         _ => {
-            fetch_asset_bytes_native(relative_path)
+            fetch_asset_bytes_native(relative_path, manifest_dir)
         }
     }
 }

@@ -1,6 +1,6 @@
 use anyhow::{Context, Result};
-use chopped_engine::{kiss3d::glamx::Vec2, util::GameRectangle};
 use chopped_asset_handler::fetch_asset_bytes;
+use chopped_engine::{kiss3d::glamx::Vec2, util::GameRectangle};
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, PartialOrd)]
 pub struct SpawnCloud {
@@ -96,7 +96,7 @@ impl Level {
     }
 
     pub async fn create_from_file(file_name: &str) -> Self {
-        let bytes = fetch_asset_bytes(&format!("{file_name}.level"))
+        let bytes = fetch_asset_bytes(&format!("{file_name}.level"), env!("CARGO_MANIFEST_DIR"))
             .await
             .expect("should be able to fetch config.ron");
         ron::de::from_bytes(&bytes).expect("level file should be valid RON")

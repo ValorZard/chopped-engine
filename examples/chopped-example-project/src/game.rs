@@ -1,5 +1,6 @@
 use std::{collections::HashMap, f32::consts::PI};
 
+use chopped_engine::hecs;
 use chopped_engine::hecs::{Entity, World};
 use chopped_engine::kiss3d::{
     color::{BLACK, RED, WHITE},
@@ -8,12 +9,11 @@ use chopped_engine::kiss3d::{
     scene::SceneNode2d,
 };
 use chopped_engine::rapier2d::{
-    control::KinematicCharacterController, parry::query::details::ShapeCastOptions, prelude::*,
+    control::KinematicCharacterController, parry::query::ShapeCastOptions, prelude::*,
 };
 use chopped_engine::uuid::Uuid;
 
-use chopped_engine::{ timestepper::GAME_TIME_DELTA,
-    util::GameRectangle, log};
+use chopped_engine::{log, timestepper::GAME_TIME_DELTA, util::GameRectangle};
 
 use crate::{
     config::GameConfig,
@@ -874,7 +874,7 @@ impl GameLogic {
         render_map
             .get_mut(&outline_node_key)
             .expect("this should exist")
-            .set_color(kiss3d::color::WHITE);
+            .set_color(WHITE);
         let center_node_key = SceneNodeKey(Uuid::new_v4());
         // unit rectangle, we will change the size and position during the sync
         let center_rect = root_scene.add_rectangle(1.0, 1.0).set_color(BLACK);

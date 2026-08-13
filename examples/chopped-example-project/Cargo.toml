@@ -7,5 +7,7 @@ edition = "2024"
 anyhow = {version = "1"}
 chopped-asset-handler = {path = "..\\..\\chopped-asset-handler\\"}
 chopped-engine = {path = "..\\..\\chopped-engine\\"}
+# only needed so the `::kiss3d` path inside `#[kiss3d::main]`'s expansion resolves
+kiss3d = { version = "0.45.1", features = ["egui"] }
 serde = { version = "1", features = ["derive"] }
 ron = "0.12.2"

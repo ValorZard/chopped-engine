@@ -743,6 +743,7 @@ dependencies = [
  "anyhow",
  "chopped-asset-handler",
  "chopped-engine",
+ "kiss3d",
  "ron",
  "serde",
 ]

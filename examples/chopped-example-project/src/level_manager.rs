@@ -1,5 +1,5 @@
+use crate::level::Level;
 use chopped_asset_handler::fetch_asset_bytes;
-use crate::{level::Level};
 
 pub struct LevelManager {
     list: LevelList,
@@ -14,7 +14,7 @@ pub struct LevelList {
 
 impl LevelManager {
     pub async fn new(list_path: &str) -> Self {
-        let bytes = fetch_asset_bytes(list_path)
+        let bytes = fetch_asset_bytes(list_path, env!("CARGO_MANIFEST_DIR"))
             .await
             .expect("should be able to fetch config.ron");
         let list: LevelList = ron::de::from_bytes(&bytes).expect("level file should be valid RON");

@@ -1,0 +1,24 @@
+GameConfig(
+    // 1 meter in physics engine equals this many pixels
+    physics_to_pixel_scale: 50.0,
+
+    // game (pixel) scale
+    player_game_width: 20.0,
+    player_game_height: 10.0,
+
+    // has to work against gravity
+    player_horizontal_acceleration: 110.0,
+    player_vertical_acceleration: 700.0,
+    // Drag per second. Higher = winds up and stops faster, lower = floatier.
+    player_linear_damping: 2.0,
+    player_ground_friction: 0.1,
+    // Hard ceilings, in pixels per second.
+    player_max_horizontal_speed: 50.0,
+    player_max_vertical_speed: 200.0,
+    // the max total speed the player can go before it will crash
+    player_speed_for_horizontal_crash: 45.0,
+    player_speed_for_vertical_crash: 130.0,
+    // how far the player can sink into a platform or wall before it counts as a crash.
+    // resting on something overlaps it by a hair, so this has to leave some slack.
+    player_overlap_for_crash: 2.0,
+)
