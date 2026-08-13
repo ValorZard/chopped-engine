@@ -4,7 +4,8 @@ use kiss3d::glamx::Vec2;
 macro_rules! log {
     ($($arg:tt)*) => {
         #[cfg(target_arch = "wasm32")]
-        web_sys::console::log_1(&format!($($arg)*).into());
+        // paths are weird in macros, so we have to re-export this to the consume so that they can call it.
+        $crate::web_sys::console::log_1(&::std::string::String::from(format!($($arg)*)).into());
         #[cfg(not(target_arch = "wasm32"))]
         println!($($arg)*);
     };
